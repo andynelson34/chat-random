@@ -2,6 +2,8 @@ var express = require('express');
 var RoomController = require('./RoomController');
 var app = express();
 
+app.use(express.json()); 
+
 var roomController = new RoomController();
 require('./router')(app, roomController);
 
