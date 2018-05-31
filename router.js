@@ -5,8 +5,6 @@ module.exports = function(app, controller) {
 	});
 
 	app.get('/api/users/:id', function(req, res) {
-		//var room = controller.room;
-		//var id = req.params.id;
 		var result = controller.getUser(req.params.id);
 		res.send(result);
 		
