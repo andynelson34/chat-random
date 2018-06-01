@@ -12,7 +12,11 @@ require('./router')(app, roomController);
 io.on('connection', function (client) {
 	//client.on('message', handleMessage);
 	console.log('client connected: ' + client.id);
-	client.on('messageSent', function(data) { roomController.handleMessage(data.messageText)});
+	client.on('userJoined', function(data, callback) {
+		var newUser = roomController.addUser(data.name, client.id);
+		callback(newUser.partnerId);
+	});
+	client.on('messageSent', function(data) {roomController.handleMessage(data.messageText)});
 	client.on('disconnect', function () {
 		console.log('client disconnect...', client.id);
 		//handleDisconnect();

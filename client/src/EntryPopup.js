@@ -1,6 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+const io = require('socket.io-client');
+const socket = io();
+
 class EntryPopup extends React.Component {
 
 	constructor(props) {
@@ -15,7 +18,8 @@ class EntryPopup extends React.Component {
 			alert("Please enter a username.");
 		}
 		else {
-			const response = await fetch('/api/users', {
+			// TODO: use a socket event instead of api call
+			/*const response = await fetch('/api/users', {
 				method: 'POST',
 				headers: {
 					Accept: 'application/json',
@@ -30,7 +34,14 @@ class EntryPopup extends React.Component {
 	    if (response.status !== 200) throw Error(body.message);
 	    if (body.partnerId === null) {
 	    	alert("hold up, wait for someone else to join");
-	    }
+	    }*/
+	    const self = this;
+	    socket.emit('userJoined', { name: username }, function (partnerId) {
+	    	if (partnerId === null) {
+					//self._status.value = "hold up, wait for someone else to join";
+					alert("hold up");
+	    	}
+	    });
 
 	    this._nameInput.value = "";
 		}
@@ -40,10 +51,13 @@ class EntryPopup extends React.Component {
 
 	render() {
 		return (
-			<form onSubmit={this.enterChat}>
-				<input type="text" placeholder="Username" ref={(a) => this._nameInput = a}></input>
-				<input type="submit" value="Enter"></input>
-			</form>
+			<div>
+				<form onSubmit={this.enterChat}>
+					<input type="text" placeholder="Username" ref={(a) => this._nameInput = a}></input>
+					<input type="submit" value="Enter"></input>
+				</form>
+				<div ref={(a) => this._status = a}></div>
+			</div>
 		);
 	}
 

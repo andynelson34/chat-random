@@ -31,8 +31,10 @@ module.exports = class RoomController {
 		user2.setPartnerId(null);
 	}
 
-	addUser(name) {
-		var newUser = new User(name, this.room.getNewId());
+	//addUser(name) {
+	addUser(name, id) {
+		//var newUser = new User(name, this.room.getNewId());
+		var newUser = new User(name, id);
 		if (this.room.queue.length === 0) {
 			this.room.queue.push(newUser);
 		}

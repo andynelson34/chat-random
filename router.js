@@ -1,3 +1,5 @@
+// TODO: delete this file since we shouldn't need it after switch over to socket events
+
 module.exports = function(app, controller) {
 
 	app.get('/api/users', function(req, res) {
