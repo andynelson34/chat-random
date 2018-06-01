@@ -73,7 +73,7 @@ module.exports = class RoomController {
 		// TODO: checks for special messages - each should have its own handler funct
 	}*/
 
-	handleMessageSent(text, senderId, client) {
+	/*handleMessageSent(text, senderId, client) {
 		console.log("handling sent message " + text + " from " + this.room.activeUsers[senderId].name + "...");
 		var recipientId = this.room.activeUsers[senderId].partnerId;
 		console.log("...to " + this.room.activeUsers[recipientId].name);
@@ -83,6 +83,6 @@ module.exports = class RoomController {
 		//client.emit('messageReceived', { 'messageText': text });
 		// Left off here - how to receive it in React??
 		//console.log("Here's the text: " + text);
-	}
+	}*/
 
 }
