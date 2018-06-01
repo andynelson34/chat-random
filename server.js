@@ -38,9 +38,9 @@ io.on('connection', function (client) {
 			
 			// Tell partner that this user has disconnected
 			io.to(user.partnerId).emit('userUnpaired');
-			partner.partnerId = null;
+			/*partner.partnerId = null;
 
-			roomController.room.queue.push(partner);
+			roomController.room.queue.push(partner);*/
 		}
 	});
 });

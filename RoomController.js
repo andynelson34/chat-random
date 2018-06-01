@@ -41,14 +41,14 @@ module.exports = class RoomController {
 			this.room.activeUsers[newPartner.id] = newPartner;
 		}
 
-		console.log("BEHOLD THE QUEUE: ");
+		/*console.log("BEHOLD THE QUEUE: ");
 		for (var i = 0; i < this.room.queue.length; i++) {
 			console.log(this.room.queue[i]);
 		}
 		console.log("BEHOLD THE ACTIVES: ");
 		for (var id in this.room.activeUsers) {
 			console.log(this.room.activeUsers[id]);
-		}
+		}*/
 		return newUser;
 	}
 
