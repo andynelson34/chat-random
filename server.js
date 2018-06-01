@@ -7,7 +7,6 @@ var io = require('socket.io')(http);
 app.use(express.json());
 
 var roomController = new RoomController();
-require('./router')(app, roomController);
 
 io.on('connection', function (client) {
 
@@ -21,7 +20,7 @@ io.on('connection', function (client) {
 			// Tell the new user's partner that they're now in a chat
 			io.to(newUser.partnerId).emit('userPaired', { 'partnerName': newUser.name, 'partnerId': client.id });
 		}
-		
+
 		console.log("JOINED CHAT: " + client.id);
 		callback(newUser.id, newUser.partnerId, partnerName);
 	});
@@ -32,7 +31,17 @@ io.on('connection', function (client) {
 	});
 	client.on('disconnect', function () {
 		console.log('client disconnect...', client.id);
-		//handleDisconnect();
+		if (roomController.room.activeUsers[client.id] !== undefined) {
+			// Disconnecting user is in a chat
+			var user = roomController.room.activeUsers[client.id];
+			var partner = roomController.room.activeUsers[user.partnerId];
+			
+			// Tell partner that this user has disconnected
+			io.to(user.partnerId).emit('userUnpaired');
+			partner.partnerId = null;
+
+			roomController.room.queue.push(partner);
+		}
 	});
 });
 

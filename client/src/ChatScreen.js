@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import LogWindow from './LogWindow';
 
 const io = require('socket.io-client');
 const socket = io();
@@ -100,6 +99,10 @@ class ChatScreen extends React.Component {
 			});
 		});
 
+		socket.on('userUnpaired', function(data) {
+			alert("Your partner disconnected");
+		});
+
 		const textLog = this.state.messageLog.map(function(text) { return (<div>{text}</div>); });
 
 		return (
@@ -114,7 +117,6 @@ class ChatScreen extends React.Component {
 				{this.state.partnerId !== null &&
 					<div>
 						<div>{textLog}</div>
-						<LogWindow />
 						<form onSubmit={this.sendMessage}>
 							<input type="text" ref={(a) => this._messageInput = a}></input>
 							<input type="submit" value="Send"></input>

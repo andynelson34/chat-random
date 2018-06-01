@@ -1,13 +1,13 @@
 var Room = require('./models/Room');
 var User = require('./models/User');
 
-
 module.exports = class RoomController {
 
 	constructor() {
 		this.room = new Room();
 	}
 
+	// Unused, part of original REST api
 	getUser(id) {
 		if (this.room.activeUsers[id] !== undefined) {
 			return this.room.activeUsers[id];
@@ -26,12 +26,6 @@ module.exports = class RoomController {
 		user1.setPartnerId(user2.id);
 		user2.setPartnerId(user1.id);
 	}
-
-	unpairUsers(user1, user2) {
-		user1.setPartnerId(null);
-		user2.setPartnerId(null);
-	}
-
 
 	addUser(name, id) {
 		var newUser = new User(name, id);
