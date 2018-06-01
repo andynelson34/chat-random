@@ -1,18 +1,22 @@
-var express = require('express');
-var RoomController = require('./RoomController');
+var express =  require('express');
 var app = express();
 var http = require('http').Server(app);
+var RoomController = require('./RoomController');
 var io = require('socket.io')(http);
 
-app.use(express.json()); 
+app.use(express.json());
 
 var roomController = new RoomController();
 require('./router')(app, roomController);
 
-var port = process.env.PORT || 5000;
-
-app.get('/api/hello', (req, res) => {
-	res.send({ express: 'Hello From Express' });
+io.on('connection', function (client) {
+	client.on('message', handleMessage);
+	client.on('disconnect', function () {
+		console.log('client disconnect...', client.id);
+		//handleDisconnect();
+	});
 });
 
-app.listen(port, () => console.log(`Listening on port ${port}`));
+var port = process.env.PORT || 5000;
+
+http.listen(port, () => console.log(`Listening on port ${port}`));

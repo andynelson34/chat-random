@@ -12,16 +12,6 @@ module.exports = class RoomController {
 			return this.room.activeUsers[id];
 		}
 
-		/*for (var i = 0; i < this.room.queue.length; i++) {
-			console.log(this.room.queue[i].id);
-			console.log("INPUT: " + id);
-			if (this.room.queue[i].id == id) {
-				console.log("found");
-				return this.room.queue[i];
-			}
-		}
-
-		return "User id not found";*/
 		var user = this.room.queue.find(user => user.id == id);
 		if (user !== undefined) {
 			return user;
@@ -54,6 +44,8 @@ module.exports = class RoomController {
 			this.room.activeUsers[newUser.id] = newUser;
 			this.room.activeUsers[newPartner.id] = newPartner;
 		}
+
+		// TODO: socket stuff to tell the other user we've found them a partner
 
 		console.log("BEHOLD THE QUEUE: ");
 		for (var i = 0; i < this.room.queue.length; i++) {
