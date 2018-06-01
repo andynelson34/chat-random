@@ -66,8 +66,12 @@ module.exports = class RoomController {
 		// Delete this user from wherever they currently are (queue or actives)
 	}
 
-	sendMessage(senderId, recipientId, text) {
+	/*sendMessage(senderId, recipientId, text) {
 		// TODO: checks for special messages - each should have its own handler funct
+	}*/
+
+	handleMessage(text) {
+		console.log("Here's the text: " + text);
 	}
 
 }

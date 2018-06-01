@@ -10,12 +10,17 @@ var roomController = new RoomController();
 require('./router')(app, roomController);
 
 io.on('connection', function (client) {
-	client.on('message', handleMessage);
+	//client.on('message', handleMessage);
+	console.log('client connected: ' + client.id);
+	client.on('messageSent', function(data) { roomController.handleMessage(data.messageText)});
 	client.on('disconnect', function () {
 		console.log('client disconnect...', client.id);
 		//handleDisconnect();
 	});
 });
+
+//io.on('messageSent', roomController.handleMessage(data.messageText));
+io.on('messageSent', function(data) { roomController.handleMessage(data.messageText)});
 
 var port = process.env.PORT || 5000;
 
