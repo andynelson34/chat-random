@@ -10,6 +10,7 @@ class ChatScreen extends React.Component {
 
 	constructor(props) {
 		super(props);
+		this.enterChat = this.enterChat.bind(this);
 		this.sendMessage = this.sendMessage.bind(this);
 		this.addMessage = this.addMessage.bind(this);
 		this.state = {
@@ -21,6 +22,49 @@ class ChatScreen extends React.Component {
 		}
 		//this.state = { endpoint: 'http://98.116.173.239:5000' };
 		//this.io = socketIOClient(constants.HOST);
+	}
+
+	enterChat(event) {
+		event.preventDefault();
+		const username = this._nameInput.value;
+		if (username.length === 0) {
+			alert("Please enter a username.");
+		}
+		else {
+			/*const response = await fetch('/api/users', {
+				method: 'POST',
+				headers: {
+					Accept: 'application/json',
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({
+					'name': username
+				})
+			});
+    	const body = await response.json();
+
+	    if (response.status !== 200) throw Error(body.message);
+	    if (body.partnerId === null) {
+	    	alert("hold up, wait for someone else to join");
+	    }*/
+	    const self = this;
+	    socket.emit('userJoined', { name: username }, function (userId, partnerId, partnerName) {
+	    	if (partnerId === null) {
+					//self._status.value = "hold up, wait for someone else to join";
+					alert("hold up");
+	    	}
+	    	self.setState({
+					id: userId,
+					name: username,
+					partnerId: partnerId,
+					partnerName: partnerName
+				});
+	    });
+
+	    this._nameInput.value = "";
+		}
+
+		this._nameInput.focus();
 	}
 
 	/*componentDidMount() {
@@ -36,7 +80,7 @@ class ChatScreen extends React.Component {
 		const text = this._messageInput.value;
 		//const io = socketIOClient(constants.HOST);
 		if (text.length !== 0) {
-			socket.emit('messageSent', { messageText: text });
+			socket.emit('messageSent', { messageText: text, senderId: this.state.id });
 			this.addMessage("you: " + text);
 		}
 	}
@@ -55,16 +99,21 @@ class ChatScreen extends React.Component {
 		/*socket.on('connection', function(client) {
 			console.log("Connection from " + client.id);
 		});*/
+		const self = this;
 		socket.on('messageReceived', function(data) {
 			console.log("hey hey hey we got a message");
-			this.addMessage(data.messageText);
+			self.addMessage("message received: " + data.messageText);
 		});
 
 		const textLog = this.state.messageLog.map(function(text) { return (<div>{text}</div>); });
 
 		return (
 			<div>
-				<EntryPopup />
+				<form onSubmit={this.enterChat}>
+					<input type="text" placeholder="Username" ref={(a) => this._nameInput = a}></input>
+					<input type="submit" value="Enter"></input>
+				</form>
+				<div ref={(a) => this._status = a}></div>
 				<div>
 					<div>{textLog}</div>
 					<LogWindow />

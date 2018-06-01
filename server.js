@@ -15,9 +15,13 @@ io.on('connection', function (client) {
 	client.on('userJoined', function(data, callback) {
 		//var newUser = roomController.addUser(data.name, client.id);
 		var newUser = roomController.addUser(data.name);
-		callback(newUser.partnerId);
+		var partnerName;
+		if (newUser.partnerId !== null) {
+			partnerName = roomController.room.activeUsers[newUser.partnerId].name;
+		}
+		callback(newUser.id, newUser.partnerId, partnerName);
 	});
-	client.on('messageSent', function(data) {roomController.handleMessageSent(data.messageText, sender.id, io)});
+	client.on('messageSent', function(data) {roomController.handleMessageSent(data.messageText, data.senderId, io)});
 	client.on('disconnect', function () {
 		console.log('client disconnect...', client.id);
 		//handleDisconnect();

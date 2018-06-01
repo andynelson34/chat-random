@@ -77,8 +77,8 @@ module.exports = class RoomController {
 		console.log("handling sent message from " + senderId);
 		var recipientId = this.room.activeUsers[senderId].partnerId;
 
-		io.broadcast.to(recipientId).emit('messageReceived', { 'messageText': text });
-		//io.emit('messageReceived', { 'messageText': text });
+		//io.broadcast.to(recipientId).emit('messageReceived', { 'messageText': text });
+		io.emit('messageReceived', { 'messageText': text });
 		// Left off here - how to receive it in React??
 		//console.log("Here's the text: " + text);
 	}
