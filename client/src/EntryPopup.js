@@ -18,7 +18,6 @@ class EntryPopup extends React.Component {
 			alert("Please enter a username.");
 		}
 		else {
-			// TODO: use a socket event instead of api call
 			/*const response = await fetch('/api/users', {
 				method: 'POST',
 				headers: {

@@ -13,10 +13,11 @@ io.on('connection', function (client) {
 	//client.on('message', handleMessage);
 	console.log('client connected: ' + client.id);
 	client.on('userJoined', function(data, callback) {
-		var newUser = roomController.addUser(data.name, client.id);
+		//var newUser = roomController.addUser(data.name, client.id);
+		var newUser = roomController.addUser(data.name);
 		callback(newUser.partnerId);
 	});
-	client.on('messageSent', function(data) {roomController.handleMessage(data.messageText)});
+	client.on('messageSent', function(data) {roomController.handleMessageSent(data.messageText, sender.id, io)});
 	client.on('disconnect', function () {
 		console.log('client disconnect...', client.id);
 		//handleDisconnect();

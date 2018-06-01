@@ -1,6 +1,7 @@
 var Room = require('./models/Room');
 var User = require('./models/User');
 
+
 module.exports = class RoomController {
 
 	constructor() {
@@ -31,10 +32,10 @@ module.exports = class RoomController {
 		user2.setPartnerId(null);
 	}
 
-	//addUser(name) {
-	addUser(name, id) {
-		//var newUser = new User(name, this.room.getNewId());
-		var newUser = new User(name, id);
+	addUser(name) {
+	//addUser(name, id) {
+		var newUser = new User(name, this.room.getNewId());
+		//var newUser = new User(name, id);
 		if (this.room.queue.length === 0) {
 			this.room.queue.push(newUser);
 		}
@@ -72,8 +73,14 @@ module.exports = class RoomController {
 		// TODO: checks for special messages - each should have its own handler funct
 	}*/
 
-	handleMessage(text) {
-		console.log("Here's the text: " + text);
+	handleMessageSent(text, senderId, io) {
+		console.log("handling sent message from " + senderId);
+		var recipientId = this.room.activeUsers[senderId].partnerId;
+
+		io.broadcast.to(recipientId).emit('messageReceived', { 'messageText': text });
+		//io.emit('messageReceived', { 'messageText': text });
+		// Left off here - how to receive it in React??
+		//console.log("Here's the text: " + text);
 	}
 
 }
