@@ -100,10 +100,15 @@ class ChatScreen extends React.Component {
 			console.log("Connection from " + client.id);
 		});*/
 		const self = this;
+		console.log("the id is " + socket.id);
 		socket.on('messageReceived', function(data) {
 			console.log("hey hey hey we got a message");
 			self.addMessage("message received: " + data.messageText);
 		});
+		/*socket.on('message', function(message) {
+			console.log("hey hey hey we got a message");
+			self.addMessage(message);
+		});*/
 
 		const textLog = this.state.messageLog.map(function(text) { return (<div>{text}</div>); });
 
