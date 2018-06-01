@@ -32,9 +32,8 @@ module.exports = class RoomController {
 		user2.setPartnerId(null);
 	}
 
-	//addUser(name) {
+
 	addUser(name, id) {
-		//var newUser = new User(name, this.room.getNewId());
 		var newUser = new User(name, id);
 		if (this.room.queue.length === 0) {
 			this.room.queue.push(newUser);
@@ -47,8 +46,6 @@ module.exports = class RoomController {
 			this.room.activeUsers[newUser.id] = newUser;
 			this.room.activeUsers[newPartner.id] = newPartner;
 		}
-
-		// TODO: socket stuff to tell the other user we've found them a partner
 
 		console.log("BEHOLD THE QUEUE: ");
 		for (var i = 0; i < this.room.queue.length; i++) {
@@ -68,21 +65,5 @@ module.exports = class RoomController {
 				// do the same partner-matching stuff from addUser
 		// Delete this user from wherever they currently are (queue or actives)
 	}
-
-	/*sendMessage(senderId, recipientId, text) {
-		// TODO: checks for special messages - each should have its own handler funct
-	}*/
-
-	/*handleMessageSent(text, senderId, client) {
-		console.log("handling sent message " + text + " from " + this.room.activeUsers[senderId].name + "...");
-		var recipientId = this.room.activeUsers[senderId].partnerId;
-		console.log("...to " + this.room.activeUsers[recipientId].name);
-		
-
-		//client.broadcast.to(recipientId).emit('messageReceived', { 'messageText': text });
-		//client.emit('messageReceived', { 'messageText': text });
-		// Left off here - how to receive it in React??
-		//console.log("Here's the text: " + text);
-	}*/
 
 }

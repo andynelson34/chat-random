@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import EntryPopup from './EntryPopup';
 import LogWindow from './LogWindow';
 
 const io = require('socket.io-client');
